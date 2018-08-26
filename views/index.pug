@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  script.
+      var playAbstract = function (abstract) {
+          var awsCredentials = new AWS.Credentials("AKIAJFBRV6UNZAR3AZJA", "kxG0lfCtbFIG/xtK1ys5/qydkbVpBNYDdgUQmBeI");
+
+          var settings = {
+              awsCredentials: awsCredentials,
+              awsRegion: "us-west-2",
+              pollyVoiceId: "Matthew",
+              cacheSpeech: true
+          }
+
+          var kathy = ChattyKathy(settings);
+          kathy.Speak(abstract);
+      }
+
+  h1(onClick='window.location.href="/"') RealReality at #{lat} / #{lon}
+
+  for poi in pois
+    p(onClick=`playAbstract("${poi.abstract.value}")`) #{poi.label.value} (#{poi.distance.value}km)
+
+  - console.log(pois);
+  // - for (let poi in pois) {
+  //   p #{poi}
+  // - }

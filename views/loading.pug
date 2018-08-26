@@ -1,0 +1,21 @@
+extends layout
+
+block content
+
+  script.
+      var lat=0, lon=0;
+      if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(pos) {
+              console.log(pos);
+            lat = pos.coords.latitude;
+            lon = pos.coords.longitude;
+
+            window.location.href = `/${lat}/${lon}`
+          }, function(error) {
+              window.location.href = '/nogps';
+          });
+      }
+
+  h1 RealReality
+
+  h1 Loading...
