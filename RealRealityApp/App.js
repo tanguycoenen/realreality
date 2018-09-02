@@ -20,8 +20,8 @@ export default class RealReality extends Component {
       error: null,
       token: null,
       notification: null,
-      title: 'Hello World',
-      body: 'Say something!',
+      title: 'RealReality',
+      body: 'Im feeling so reeeaaaaaal....!',
     };
   }
 
@@ -106,27 +106,12 @@ export default class RealReality extends Component {
     }*/
 
     return(
-      <View style={{flex: 1, paddingTop:20}}>
-        <Text style={styles.title}>RealReality</Text>
-        <Text>Latitude: {this.state.latitude}</Text>
-        <Text>Longitude: {this.state.longitude}</Text>
-       {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
-       <KeyboardAvoidingView style={styles.container} behavior="position">
-               <Text style={styles.title}>Expo Sample Notifications App</Text>
-               <Text style={styles.text}>Title</Text>
-               <TextInput
-                 style={styles.input}
-                 onChangeText={title => this.setState({ title })}
-                 maxLength={100}
-                 value={this.state.title}
-               />
-               <Text style={styles.text}>Message</Text>
-               <TextInput
-                 style={styles.input}
-                 onChangeText={body => this.setState({ body })}
-                 maxLength={100}
-                 value={this.state.body}
-               />
+
+       <KeyboardAvoidingView style={styles.container} behavior="padding">
+               <Text >RealReality</Text>
+               <Text>Latitude: {this.state.latitude}</Text>
+               <Text>Longitude: {this.state.longitude}</Text>
+               {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
                <TouchableOpacity
                  onPress={() => this.registerForPushNotifications()}
                  style={styles.touchable}>
@@ -152,31 +137,33 @@ export default class RealReality extends Component {
                  </View>
                ) : null}
              </KeyboardAvoidingView>
-      </View>
 
     );
   }
 }
 const styles = StyleSheet.create({
   title: {
-    flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0f0',
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
+    flex: 1,
     fontSize: 18,
     padding: 8,
   },
   text: {
+    backgroundColor: '#0f0',
     paddingBottom: 2,
     padding: 8,
   },
   container: {
+    backgroundColor: '#0f0',
     flex: 1,
     paddingTop: 40,
   },
   touchable: {
+    backgroundColor: '#fff',
     borderWidth: 1,
     borderRadius: 4,
     margin: 8,
