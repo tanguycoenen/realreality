@@ -38,13 +38,33 @@ export default class RealReality extends Component {
     const token = await Notifications.getExpoPushTokenAsync();
 
     this.subscription = Notifications.addListener(this.handleNotification);
-
+    console.log(token);
     this.setState({
       token,
     });
   }
 
+  sendDelayedPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
+   setTimeout(function () {
+     //return function() { this.sendPushNotification();}
+     return fetch('https://exp.host/--/api/v2/push/send', {
+       body: JSON.stringify({
+         to: token,
+         title: title,
+         body: body,
+         data: { message: `${title} - ${body}` },
+       }),
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       method: 'POST',
+     });
+     console.log("****");
+   }, 5000);
+  }
+
   sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
+    console.log("Sending notification");
     return fetch('https://exp.host/--/api/v2/push/send', {
       body: JSON.stringify({
         to: token,
@@ -59,11 +79,11 @@ export default class RealReality extends Component {
     });
   }
 
-  handleNotification = notification => {
-    this.setState({
-      notification,
-    });
-  };
+  /*sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
+    let URL = 'http://192.168.0.212:3000/notifications/register/'+token;
+    console.log(URL);
+    setTimeout(fetch(URL), 10000);
+  }*/
 
   componentDidMount(){
     //return fetch('https://35.158.121.141/51.1987722/4.4234877')
@@ -82,6 +102,7 @@ export default class RealReality extends Component {
       .catch((error) =>{
         console.error(error);
       });*/
+
       navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -94,6 +115,13 @@ export default class RealReality extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
     );
   }
+
+  handleNotification = notification => {
+    console.log('Handling notification');
+    this.setState({
+      notification,
+    });
+  };
 
   render(){
 
@@ -117,7 +145,7 @@ export default class RealReality extends Component {
                  style={styles.touchable}>
                  <Text>Register me for notifications!</Text>
                </TouchableOpacity>
-               <TouchableOpacity onPress={() => this.sendPushNotification()} style={styles.touchable}>
+               <TouchableOpacity onPress={() => this.sendDelayedPushNotification()} style={styles.touchable}>
                  <Text>Send me a notification!</Text>
                </TouchableOpacity>
                {this.state.token ? (
@@ -136,7 +164,7 @@ export default class RealReality extends Component {
                    <Text style={styles.text}>{JSON.stringify(this.state.notification.data.message)}</Text>
                  </View>
                ) : null}
-             </KeyboardAvoidingView>
+         </KeyboardAvoidingView>
 
     );
   }
