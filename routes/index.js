@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var notifications = require('../public/javascripts/expoNotifications.js');
 const {SparqlClient, SPARQL} = require('sparql-client-2');
 
 const client =
@@ -32,6 +33,11 @@ function fetchPOIs(lat, lon, radiusKm, limit) {
     // .then(response => Promise.resolve(response.results.bindings[0].leaderName.value));
 }
 
+function notificReg(token){
+  console.log("notificReg");
+  notifications.sendNotification(token);
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('loading');
@@ -41,6 +47,12 @@ router.get('/nogps', function(req, res, next) {
     res.render('nogps');
 });
 
+router.get('/notifications/register/:token', function(req, res, next) {
+    let token = req.params.token;
+    console.log(token);
+    notificReg(token);
+    res.render('notificReg');
+});
 
 router.get('/:lat/:lon', function(req, res, next) {
     let lat = parseFloat(req.params.lat);
@@ -50,6 +62,17 @@ router.get('/:lat/:lon', function(req, res, next) {
 
     fetchPOIs(lat, lon, 25, 50)
         .then(pois => res.render('index', { pois: pois, lat: lat, lon: lon }))
+        .catch(e => console.log(e));
+});
+
+router.get('/json/:lat/:lon', function(req, res, next) {
+    let lat = parseFloat(req.params.lat);
+    let lon = parseFloat(req.params.lon);
+    //let result = { pois: pois, lat: lat, lon: lon }
+    console.log(lat, lon);
+
+    fetchPOIs(lat, lon, 25, 50)
+        .then(pois => res.send(JSON.stringify({ pois: pois, lat: lat, lon: lon })))
         .catch(e => console.log(e));
 });
 
