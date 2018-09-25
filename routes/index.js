@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-//var notifications = require('../public/javascripts/expoNotifications.js');
 const {SparqlClient, SPARQL} = require('sparql-client-2');
 
 const client =
@@ -33,11 +32,6 @@ function fetchPOIs(lat, lon, radiusKm, limit) {
     // .then(response => Promise.resolve(response.results.bindings[0].leaderName.value));
 }
 
-/*function notificReg(token){
-  console.log("notificReg");
-  notifications.sendNotification(token);
-}*/
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('loading');
@@ -46,13 +40,6 @@ router.get('/', function(req, res, next) {
 router.get('/nogps', function(req, res, next) {
     res.render('nogps');
 });
-
-/*router.get('/notifications/register/:token', function(req, res, next) {
-    let token = req.params.token;
-    console.log(token);
-    notificReg(token);
-    res.render('notificReg');
-});*/
 
 router.get('/:lat/:lon', function(req, res, next) {
     let lat = parseFloat(req.params.lat);
