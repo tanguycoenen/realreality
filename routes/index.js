@@ -72,8 +72,10 @@ router.get('/json/:lat/:lon', function(req, res, next) {
     console.log(lat, lon);
 
     fetchPOIs(lat, lon, 25, 50)
-        .then(pois => res.send(JSON.stringify({ pois: pois, lat: lat, lon: lon })))
-        .catch(e => console.log(e));
+        //.then(pois => res.send(JSON.stringify({ pois: pois, lat: lat, lon: lon })))
+        //.then(pois => res.send(JSON.stringify({lat: lat, lon: lon })))
+        .then(pois => res.send(JSON.stringify({ pois })))
+	.catch(e => console.log(e));
 });
 
 module.exports = router;
