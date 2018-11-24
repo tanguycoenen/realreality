@@ -79,29 +79,26 @@ export default class RealReality extends Component {
     });
   }
 
-  /*sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
-    let URL = 'http://192.168.0.212:3000/notifications/register/'+token;
-    console.log(URL);
-    setTimeout(fetch(URL), 10000);
-  }*/
-
   componentDidMount(){
-    //return fetch('https://35.158.121.141/51.1987722/4.4234877')
-    /*return fetch('https://facebook.github.io/react-native/movies.json')
-      .then((response) => response.json())
+     fetch('https://realreality.be/json/51.1987722/4.4234877')
+      .then(
+        (response) => {
+          response.json();
+          console.log(response.json());
+        }
+      )
       .then((responseJson) => {
-
         this.setState({
           isLoading: false,
           dataSource: responseJson,
         }, function(){
-
+          console.log(responseJson);
         });
 
       })
       .catch((error) =>{
         console.error(error);
-      });*/
+      });
 
       navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -155,6 +152,11 @@ export default class RealReality extends Component {
                      style={styles.input}
                      onChangeText={token => this.setState({ token })}
                      value={this.state.token}
+                   />
+                   <FlatList
+                    data={this.state.dataSource}
+                    renderItem={({item}) => <Text>{item.title}, {item.releaseYear}</Text>}
+                    keyExtractor={({id}, index) => id}
                    />
                  </View>
                ) : null}
