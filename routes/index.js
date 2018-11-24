@@ -14,7 +14,7 @@ function fetchPOIs(lat, lon, radiusKm, limit) {
     console.log(lat, lon);
     return client
         .query(SPARQL`
-	        SELECT ?subject ?label ?abstract ?distance WHERE {
+	        SELECT ?subject ?label ?abstract ?lat ?long ?distance WHERE {
 		        ?subject geo:lat ?lat.
 		        ?subject geo:long ?long.
 		        ?subject rdfs:label ?label.
